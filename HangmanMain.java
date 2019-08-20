@@ -1,4 +1,10 @@
+package hangmanPackage;
+
 import java.util.ArrayList;
+
+/**
+ * 
+ */
 
 
 import java.util.Arrays;
@@ -11,25 +17,25 @@ import java.util.Scanner;
  */
 public class HangmanMain {
 	public static String getWord() {
-		final  String word = "Bastardo";
+		final  String word = "Bastardo"; 
 		return word.toUpperCase();
 	}
 
 	public static Scanner scanner = new Scanner(System.in);
 
 
-	public  static void run(String w) {
+	public  static void run(String w, User obj) {
 		//	int wordLength = w.length();
 		final int wrongLimit = 8;
-		int wrongGuesses;
+		int wrongGuesses = 0;
 		int correctGuesses = 0;
 		char[] wordArr = w.toCharArray();
 		char [] answerArr = new char[w.length()];
-		char [] stateArr;
+		char [] stateArr  = new char[w.length()];
 		int tries = 0;
 		int errorsMade = 0;
 
-		List<Character> guesses = new ArrayList<>();
+		List<Character> guesses = new ArrayList<Character>();
 
 
 
@@ -40,12 +46,13 @@ public class HangmanMain {
 			}
 			for (int x = 0; x < answerArr.length; x++) {
 				if (answerArr[x] == '\u0000'){
-					answerArr[x] = '_';
+					answerArr[x] = '_';	
 				}
 			}
 			stateArr = answerArr.clone();
 
-			char guess = Character.toUpperCase(scanner.next().charAt(0));
+			//char guess = Character.toUpperCase(scanner.next().charAt(0));
+			char guess = Character.toUpperCase(obj.getInput());
 			tries ++;
 
 			boolean beenDone = false;
@@ -56,16 +63,16 @@ public class HangmanMain {
 				}
 			}
 
-			if(!beenDone) {
+			if(beenDone == false) {
 				guesses.add(guess);
 				for(int y = 0; y < w.length(); y++) {
 					if(guess == wordArr[y]) {
 						answerArr[y] = guess;
-						correctGuesses ++;
+						correctGuesses ++;	
 					}
 				}//if the character that the user selected is found anywhere in the array, the value is placed at the same index in the Answer array.
 
-				if (!Arrays.equals(answerArr, stateArr)) {
+				if (Arrays.equals(answerArr, stateArr) == false) {
 					System.out.println("Congrats! Your guess was right!!");
 					//stateArr = answerArr.clone();
 					wrongGuesses--;
@@ -75,7 +82,7 @@ public class HangmanMain {
 						break;
 					}
 				}else {
-
+					
 					errorsMade++;
 					System.out.println("Oops you guessed wrong. Try again! You have "+ (wrongLimit - errorsMade) +" more wrong guesses");
 					System.out.println(Arrays.toString(answerArr));
@@ -90,11 +97,11 @@ public class HangmanMain {
 
 
 	public static boolean starter() {
-		boolean b;
+		boolean b = false;
 		String start = scanner.next().toLowerCase();
 		if (start.equals("start")) {
 			System.out.println("Alright let's go!");
-			b = true;
+			b = true;	
 		}else {
 			System.out.print("You seem to have entered something else. Please try again.\n");
 			b = starter();
@@ -107,9 +114,11 @@ public class HangmanMain {
 		// TODO Auto-generated method stub
 		System.out.println("Thank you for playing this game. Please type \"Start\" to begin the game");
 		boolean bool = starter();
-		if (bool) {
+		if (bool == true) {
 			System.out.println("You have a maximum of 8 wrong guesses. Begin");
-			run(getWord());
+			LazyAI lazy = new LazyAI();
+			User user = new User();
+			run(getWord(), user);
 		}
 
 	}
