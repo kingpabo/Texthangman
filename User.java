@@ -13,6 +13,7 @@ public class User extends Players{
 	
 	public char getInput() {
 		char a = Character.toUpperCase(scanner.next().charAt(0));
+		setCurrGuess(a);
 		return a;
 	}
 

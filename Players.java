@@ -4,6 +4,7 @@ package hangmanPackage;
 		String pName;
         char currGuess;
         
+        
 	    Players(){
 	        this.pName = "Player";
 	        this.currGuess = '\u0000';
@@ -24,6 +25,9 @@ package hangmanPackage;
 		     this.currGuess = b;
 	    }
 	    
+	    public char getInput() {
+	    	return currGuess;
+	    }
 	    
 		public String getpName() {
 			return pName;
